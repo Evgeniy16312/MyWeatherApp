@@ -3,4 +3,7 @@
     <string name="mainfragment">MainFragment</string>
     <string name="mainFragment">mainFragment</string>
     <string name="MainFragment">MainFragment</string>
+    <string name="temperature_label">Температура</string>
+    <string name="feels_like_label">Ощущается как</string>
+    <string name="city_coordinates">lt/ln: %s, %s"</string>
 </resources>
