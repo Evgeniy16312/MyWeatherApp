@@ -19,10 +19,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_russia"
+        android:src="@drawable/russian"
+        app:iconTint="@android:color/transparent"
+        app:iconTintMode="add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="@dimen/fab_icon_size" />
+        app:maxImageSize="@dimen/fab_icon_size"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:contentDescription="@string/todo" />
 
     <FrameLayout
         android:id="@+id/mainFragmentLoadingLayout"
