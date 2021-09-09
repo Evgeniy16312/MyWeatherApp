@@ -1,9 +1,9 @@
-package com.example.myweatherapp
+package view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.MainActivityBinding
-import com.example.myweatherapp.ui.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
 

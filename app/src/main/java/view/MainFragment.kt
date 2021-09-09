@@ -1,4 +1,4 @@
-package com.example.myweatherapp.ui.main
+package view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.MainFragmentBinding
+import viewmodel.AppState
+import viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
+import model.Weather
 
 class MainFragment : Fragment() {
 
@@ -33,7 +36,7 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.getLiveData().observe(viewLifecycleOwner, { state -> renderData(state) })
-        viewModel.getWeather()
+        viewModel.getWeatherFromRemoteSource()
     }
 
 
@@ -41,7 +44,9 @@ class MainFragment : Fragment() {
         when (state) {
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
-                binding.message.text = state.weatherData
+                val weatherData = state.weatherData
+                setData(weatherData)
+
             }
             is AppState.Loading -> {
                 binding.loadingLayout.visibility = View.VISIBLE
@@ -50,10 +55,21 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 Snackbar
                     .make(binding.mainView, "Error: ${state.error}", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("Reload") { viewModel.getWeather() }
+                    .setAction("Reload") { viewModel.getWeatherFromRemoteSource() }
                     .show()
             }
         }
+    }
+
+    private fun setData(weatherData: Weather) {
+        binding.cityName.text = weatherData.city.name
+        binding.cityCoordinates.text = String.format(
+            getString(R.string.city_coordinates),
+            weatherData.city.lat.toString(),
+            weatherData.city.lon.toString()
+        )
+        binding.temperatureValue.text = weatherData.temperature.toString()
+        binding.feelsLikeValue.text = weatherData.feelsLike.toString()
     }
 
     override fun onDestroyView() {
