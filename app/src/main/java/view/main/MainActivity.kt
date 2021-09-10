@@ -11,15 +11,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
+                .commitAllowingStateLoss()
         }
     }
 }
