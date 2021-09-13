@@ -21,12 +21,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
         android:contentDescription="@string/todo"
-        android:src="@drawable/russian"
-        app:iconTint="@android:color/transparent"
-        app:iconTintMode="add"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="@dimen/fab_icon_size"
+        app:maxImageSize="56dp"
+        app:srcCompat="@drawable/world"
+        app:tint="@null"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <FrameLayout
