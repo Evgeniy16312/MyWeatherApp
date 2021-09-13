@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import model.Repository
 import model.RepositoryImpl
 import java.lang.Thread.sleep
-import kotlin.random.Random
 
 class MainViewModel(
     private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData(),
