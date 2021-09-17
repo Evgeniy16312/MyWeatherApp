@@ -65,22 +65,20 @@ class MainFragment : Fragment() {
             mainFragmentFAB.setImageResource(R.drawable.russian)
         }.also { isDataSetRus = !isDataSetRus }
 
-    private fun renderData(appState: AppState) {
-        when (appState) {
-            is AppState.Success -> {
-                binding.mainFragmentLoadingLayout.visibility = View.GONE
-                adapter.setWeather(appState.weatherData)
-            }
-            is AppState.Loading -> {
-                binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
-            }
-            is AppState.Error -> {
-                mainFragmentLoadingLayout.visibility = View.GONE
-                mainFragmentRootView.showSnackBar(
-                    getString(R.string.error),
-                    getString(R.string.reload),
-                    { viewModel.getWeatherFromLocalSourceRus() })
-            }
+    private fun renderData(appState: AppState) = when (appState) {
+        is AppState.Success -> {
+            binding.mainFragmentLoadingLayout.visibility = View.GONE
+            adapter.setWeather(appState.weatherData)
+        }
+        is AppState.Loading -> {
+            binding.mainFragmentLoadingLayout.visibility = View.VISIBLE
+        }
+        is AppState.Error -> {
+            mainFragmentLoadingLayout.visibility = View.GONE
+            mainFragmentRootView.showSnackBar(
+                getString(R.string.error),
+                getString(R.string.reload),
+                { viewModel.getWeatherFromLocalSourceRus() })
         }
     }
 
