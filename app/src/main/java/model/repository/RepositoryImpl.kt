@@ -1,4 +1,8 @@
-package model
+package model.repository
+
+import model.Weather
+import model.getRussianCities
+import model.getWorldCities
 
 class RepositoryImpl : Repository {
     override fun getWeatherFromServer() = Weather()

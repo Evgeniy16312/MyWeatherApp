@@ -1,4 +1,6 @@
-package model
+package model.repository
+
+import model.Weather
 
 interface Repository {
     fun getWeatherFromServer(): Weather
