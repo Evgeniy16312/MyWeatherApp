@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.FragmentDetailsBinding
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_details.*
 import model.*
 import model.utils.showSnackBar
 import viewmodel.AppState
@@ -42,10 +44,9 @@ class DetailsFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
 
-
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
@@ -54,8 +55,8 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         weatherBundle = arguments?.getParcelable(BUNDLE_EXTRA) ?: Weather()
-        viewModel.getLiveData().observe(viewLifecycleOwner, Observer { renderData(it) })
-        viewModel.getWeatherFromRemoteSource(MAIN_LINK + "lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}")
+        viewModel.detailsLiveData.observe(viewLifecycleOwner, Observer { renderData(it) })
+        viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
     }
 
     private fun renderData(appState: AppState) {
@@ -72,10 +73,15 @@ class DetailsFragment : Fragment() {
             is AppState.Error -> {
                 binding.mainView.visibility = View.VISIBLE
                 binding.loadingLayout.visibility = View.GONE
-                binding.mainView.showSnackBar(
-                        getString(R.string.error),
-                        getString(R.string.reload),
-                        { viewModel.getWeatherFromRemoteSource(MAIN_LINK + "lat=${weatherBundle.city.lat}&lon=${weatherBundle.city.lon}") })
+                mainView.showSnackBar(
+                    getString(R.string.error),
+                    getString(R.string.reload),
+                    {
+                        viewModel.getWeatherFromRemoteSource(
+                            weatherBundle.city.lat,
+                            weatherBundle.city.lon
+                        )
+                    })
             }
         }
     }
@@ -84,13 +90,19 @@ class DetailsFragment : Fragment() {
         val city = weatherBundle.city
         binding.cityName.text = city.name
         binding.cityCoordinates.text = String.format(
-                getString(R.string.city_coordinates),
-                city.lat.toString(),
-                city.lon.toString()
+            getString(R.string.city_coordinates),
+            city.lat.toString(),
+            city.lon.toString()
         )
         binding.temperatureValue.text = weather.temperature.toString()
         binding.feelsLikeValue.text = weather.feelsLike.toString()
         binding.weatherCondition.text = weather.condition
+
+        Picasso
+            .get()
+            .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
+            .into(headerIcon)
+
     }
 
 
