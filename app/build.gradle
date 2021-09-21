@@ -23,7 +23,7 @@ android {
     buildTypes.each {
         Properties properties = new Properties()
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
-        def apiKey  = properties.getProperty("yandex_weather_api_key", "")
+        def apiKey = properties.getProperty("yandex_weather_api_key", "")
         it.buildConfigField "String", "WEATHER_API_KEY", apiKey
     }
 
@@ -43,6 +43,10 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.corouteam:GlideToVectorYou:v2.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+       implementation 'com.squareup.okhttp3:logging-interceptor:3.12.2'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'

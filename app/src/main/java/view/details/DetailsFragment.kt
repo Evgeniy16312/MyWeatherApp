@@ -1,5 +1,6 @@
 package view
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.FragmentDetailsBinding
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.*
-import model.*
+import model.Weather
 import model.utils.showSnackBar
 import viewmodel.AppState
 import viewmodel.DetailsViewModel
@@ -43,6 +44,7 @@ class DetailsFragment : Fragment() {
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
     private lateinit var weatherBundle: Weather
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -103,6 +105,13 @@ class DetailsFragment : Fragment() {
             .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
             .into(headerIcon)
 
+        weather.icon?.let {
+            GlideToVectorYou.justLoadImage(
+                activity,
+                Uri.parse("https://yastatic.net/weather/i/icons/blueye/color/svg/${it}.svg"),
+                weatherIcon
+            )
+        }
     }
 
 
