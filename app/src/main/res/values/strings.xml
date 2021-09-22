@@ -1,4 +1,5 @@
 <resources>
+    <string name="menu_title_history">history</string>
     <string name="app_name">MyWeatherApp</string>
     <string name="mainFragment">mainFragment</string>
     <string name="MainFragment">MainFragment</string>
