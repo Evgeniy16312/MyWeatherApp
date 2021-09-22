@@ -2,8 +2,8 @@ package viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import model.Repository
-import model.RepositoryImpl
+import model.repository.Repository
+import model.repository.RepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(
