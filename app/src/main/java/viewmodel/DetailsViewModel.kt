@@ -50,11 +50,22 @@ class DetailsViewModel(
 
         private fun checkResponse(serverResponse: WeatherDTO): AppState {
             val fact = serverResponse.fact
-            return if (fact?.temp == null || fact.feels_like ==null || fact.condition.isNullOrEmpty()) {
+            return if (fact?.temp == null || fact.feels_like == null || fact.condition.isNullOrEmpty()) {
                 AppState.Error(Throwable(CORRUPTED_DATA))
             } else {
                 AppState.Success(convertDtoToModel(serverResponse))
             }
+        }
+    }
+
+    class HistoryViewModel(
+        val historyLiveData: MutableLiveData<AppState> = MutableLiveData(),
+        private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao())
+    ) : ViewModel() {
+
+        fun getAllHistory() {
+            historyLiveData.value = AppState.Loading
+            historyLiveData.value = AppState.Success(historyRepository.getAllHistory())
         }
     }
 }
