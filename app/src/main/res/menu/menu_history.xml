@@ -4,7 +4,12 @@
 
     <item
         android:id="@+id/menu_history"
+        android:icon="@drawable/ic_baseline_history_24"
         android:title="@string/menu_title_history"
-        android:icon="@drawable/ic_history"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_content_provider"
+        android:icon="@drawable/ic_baseline_contact_phone_24"
+        android:title="@string/content_provider"
+        app:showAsAction="ifRoom" />
 </menu>
