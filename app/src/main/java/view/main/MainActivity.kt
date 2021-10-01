@@ -16,7 +16,6 @@ import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.MainActivityBinding
 import view.details.HistoryFragment
 
-
 class MainActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -78,14 +77,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getContact() {
-        contentResolver
-
         val cursor: Cursor? = contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
             null,
             null,
             null,
-            ContactsContract.Contacts.DISPLAY_NAME + "ASC"
+            ContactsContract.Contacts.DISPLAY_NAME + " ASC"
         )
 
         val contracts = mutableListOf<String>()
@@ -98,10 +95,11 @@ class MainActivity : AppCompatActivity() {
                     contracts.add(name)
                 }
             }
+            it.close()
         }
 
         AlertDialog.Builder(this)
-            .setItems(contracts.toTypedArray()) { d, w -> }
+            .setItems(contracts.toTypedArray()) { _, _ -> /* do noting */ }
             .setCancelable(true)
             .show()
     }
