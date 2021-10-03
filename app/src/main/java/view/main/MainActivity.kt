@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
             null,
             null,
             null,
-            ContactsContract.Contacts.DISPLAY_NAME + "ASC"
+            ContactsContract.Contacts.DISPLAY_NAME + " ASC"
         )
 
         val contracts = mutableListOf<String>()
@@ -98,10 +98,11 @@ class MainActivity : AppCompatActivity() {
                     contracts.add(name)
                 }
             }
+            it.close()
         }
 
         AlertDialog.Builder(this)
-            .setItems(contracts.toTypedArray()) { d, w -> }
+            .setItems(contracts.toTypedArray()) { _, _ -> }
             .setCancelable(true)
             .show()
     }
