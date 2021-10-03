@@ -1,5 +1,6 @@
 package view.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,8 @@ import model.Weather
 import view.DetailsFragment
 import viewmodel.AppState
 import viewmodel.MainViewModel
+
+private const val IS_WORLD_KEY = "LIST_OF_TOWNS_KEY"
 
 class MainFragment : Fragment() {
 
@@ -48,22 +51,48 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
+    private var isDataSetWorld: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.mainFragmentRecyclerView.adapter = adapter
         binding.mainFragmentFAB.setOnClickListener { changeWeatherDataSet() }
         viewModel.getLiveData().observe(viewLifecycleOwner, { renderData(it) })
-        viewModel.getWeatherFromLocalSourceRus()
+
+        showListOfTowns()
     }
 
-    private fun changeWeatherDataSet() =
-        if (isDataSetRus) {
-            viewModel.getWeatherFromLocalSourceWorld()
-            mainFragmentFAB.setImageResource(R.drawable.world)
-        } else {
+    private fun showListOfTowns() {
+        activity?.let {
+            if (it.getPreferences(Context.MODE_PRIVATE).getBoolean(IS_WORLD_KEY, false)) {
+                changeWeatherDataSet()
+            } else {
+                viewModel.getWeatherFromLocalSourceRus()
+            }
+        }
+    }
+
+    private fun changeWeatherDataSet() {
+        if (isDataSetWorld) {
             viewModel.getWeatherFromLocalSourceRus()
-            mainFragmentFAB.setImageResource(R.drawable.russian)
-        }.also { isDataSetRus = !isDataSetRus }
+            binding.mainFragmentFAB.setImageResource(R.drawable.world)
+        } else {
+            viewModel.getWeatherFromLocalSourceWorld()
+            binding.mainFragmentFAB.setImageResource(R.drawable.russian)
+        }
+        isDataSetWorld = !isDataSetWorld
+
+        saveListOfTowns(isDataSetWorld)
+    }
+
+    private fun saveListOfTowns(isDataSetWorld: Boolean) {
+        activity?.let {
+            with(it.getPreferences(Context.MODE_PRIVATE).edit()) {
+                putBoolean(IS_WORLD_KEY, isDataSetWorld)
+                apply()
+            }
+        }
+    }
 
     private fun renderData(appState: AppState) = when (appState) {
         is AppState.Success -> {

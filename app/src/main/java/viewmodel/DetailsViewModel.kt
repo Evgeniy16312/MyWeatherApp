@@ -2,10 +2,10 @@ package viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import model.Weather
 import model.WeatherDTO
-import model.repository.DetailsRepository
-import model.repository.DetailsRepositoryImpl
-import model.repository.RemoteDataSource
+import model.app.App.Companion.getHistoryDao
+import model.repository.*
 import model.utils.convertDtoToModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,15 +16,18 @@ private const val REQUEST_ERROR = "Ошибка запроса на сервер
 private const val CORRUPTED_DATA = "Неполные данные"
 
 class DetailsViewModel(
-     val detailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
-    private val detailsRepositoryImpl: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource())
+    val detailsLiveData: MutableLiveData<AppState> = MutableLiveData(),
+    private val detailsRepository: DetailsRepository = DetailsRepositoryImpl(RemoteDataSource()),
+    private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao())
 ) : ViewModel() {
-
-    fun getLiveData() = detailsLiveData
 
     fun getWeatherFromRemoteSource(lat: Double, lon: Double) {
         detailsLiveData.value = AppState.Loading
-        detailsRepositoryImpl.getWeatherDetailsFromServer(lat, lon, callBack)
+        detailsRepository.getWeatherDetailsFromServer(lat, lon, callBack)
+    }
+
+    fun saveCityToDB(weather: Weather) {
+        historyRepository.saveEntity(weather)
     }
 
     private val callBack = object :
@@ -52,6 +55,17 @@ class DetailsViewModel(
             } else {
                 AppState.Success(convertDtoToModel(serverResponse))
             }
+        }
+    }
+
+    class HistoryViewModel(
+        val historyLiveData: MutableLiveData<AppState> = MutableLiveData(),
+        private val historyRepository: LocalRepository = LocalRepositoryImpl(getHistoryDao())
+    ) : ViewModel() {
+
+        fun getAllHistory() {
+            historyLiveData.value = AppState.Loading
+            historyLiveData.value = AppState.Success(historyRepository.getAllHistory())
         }
     }
 }

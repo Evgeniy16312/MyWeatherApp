@@ -13,6 +13,7 @@ import com.example.myweatherapp.databinding.FragmentDetailsBinding
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_details.*
+import model.City
 import model.Weather
 import model.utils.showSnackBar
 import viewmodel.AppState
@@ -91,6 +92,7 @@ class DetailsFragment : Fragment() {
 
     private fun setWeather(weather: Weather) {
         val city = weatherBundle.city
+        saveCity(city, weather)
         binding.cityName.text = city.name
         binding.cityCoordinates.text = String.format(
             getString(R.string.city_coordinates),
@@ -115,6 +117,20 @@ class DetailsFragment : Fragment() {
         }
     }
 
+
+    private fun saveCity(
+        city: City,
+        weather: Weather
+    ) {
+        viewModel.saveCityToDB(
+            Weather(
+                city,
+                weather.temperature,
+                weather.feelsLike,
+                weather.condition
+            )
+        )
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
