@@ -114,7 +114,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-
     private fun saveCity(
         city: City,
         weather: Weather

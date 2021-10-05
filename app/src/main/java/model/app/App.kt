@@ -26,13 +26,13 @@ class App : Application() {
                         db = Room.databaseBuilder(
                             appInstance!!.applicationContext,
                             HistoryDataBase::class.java,
-                            DB_NAME)
+                            DB_NAME
+                        )
                             .allowMainThreadQueries()
                             .build()
                     }
                 }
             }
-
             return db!!.historyDao()
         }
     }

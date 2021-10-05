@@ -63,11 +63,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
 
             R.id.menu_google_maps -> {
-                supportFragmentManager.
-                    beginTransaction()
-                        .add(R.id.container, GoogleMapsFragment())
-                        .addToBackStack("")
-                        .commitAllowingStateLoss()
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, GoogleMapsFragment())
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
 
                 true
             }
@@ -90,7 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getContact() {
-        contentResolver
 
         val cursor: Cursor? = contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,
