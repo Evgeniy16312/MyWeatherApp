@@ -113,7 +113,8 @@ class GoogleMapsFragment : Fragment() {
     }
 
     private fun addMarkerToArray(location: LatLng) {
-        val marker = setMarker(location, markers.size.toString(), R.drawable.ic_baseline_pin_drop_24)
+        val marker =
+            setMarker(location, markers.size.toString(), R.drawable.ic_baseline_pin_drop_24)
         markers.add(marker)
     }
 
@@ -152,7 +153,6 @@ class GoogleMapsFragment : Fragment() {
             googleMap.isMyLocationEnabled = isPermissionGranted
             googleMap.uiSettings.isMyLocationButtonEnabled = isPermissionGranted
         }
-        //Получить разрешение, если его нет
     }
 
     companion object {
