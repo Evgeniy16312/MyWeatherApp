@@ -22,6 +22,15 @@ android {
         viewBinding true
     }
 
+    signingConfigs {
+        release {
+            storeFile file("keystore.jks")
+            storePassword 'GeekBrains'
+            keyAlias 'GeekBrains'
+            keyPassword 'GeekBrains'
+        }
+    }
+
     buildTypes.each {
         Properties properties = new Properties()
         properties.load(project.rootProject.file("apikey.properties").newDataInputStream())
@@ -31,8 +40,10 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TYPE", '"RELEASE"'
         }
     }
     compileOptions {

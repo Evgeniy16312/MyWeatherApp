@@ -110,10 +110,10 @@ class MainFragment : Fragment() {
     private fun changeWeatherDataSet() {
         if (isDataSetWorld) {
             viewModel.getWeatherFromLocalSourceRus()
-            binding.mainFragmentFAB.setImageResource(R.drawable.world)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_baseline_location_searching_24)
         } else {
             viewModel.getWeatherFromLocalSourceWorld()
-            binding.mainFragmentFAB.setImageResource(R.drawable.russian)
+            binding.mainFragmentFAB.setImageResource(R.drawable.ic_baseline_my_location_24)
         }
         isDataSetWorld = !isDataSetWorld
 
