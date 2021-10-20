@@ -124,6 +124,5 @@ class DetailsService(name: String = "DetailService") : IntentService(name) {
 
     private fun putLoadResult(result: String) {
         broadcastIntent.putExtra(DETAILS_LOAD_RESULT_EXTRA, result)
-
     }
 }

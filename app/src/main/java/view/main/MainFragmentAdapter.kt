@@ -36,6 +36,7 @@ class MainFragmentAdapter(private var onItemViewClickListener: MainFragment.OnIt
         return weatherData.size
     }
 
+
     inner class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(weather: Weather) {

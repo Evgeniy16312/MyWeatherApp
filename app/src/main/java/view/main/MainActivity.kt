@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import model.googlemaps.GoogleMapsFragment
 import com.example.myweatherapp.R
 import com.example.myweatherapp.databinding.MainActivityBinding
 import view.details.HistoryFragment
@@ -60,6 +61,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+
+            R.id.menu_google_maps -> {
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, GoogleMapsFragment())
+                    .addToBackStack("")
+                    .commitAllowingStateLoss()
+
+                true
+            }
+
             R.id.menu_history -> {
                 supportFragmentManager.apply {
                     beginTransaction()
@@ -78,7 +89,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getContact() {
-        contentResolver
 
         val cursor: Cursor? = contentResolver.query(
             ContactsContract.Contacts.CONTENT_URI,

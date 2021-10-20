@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_details.*
 import model.City
 import model.Weather
 import model.utils.showSnackBar
+import view.main.MainFragment
+import view.main.MainFragmentAdapter
 import viewmodel.AppState
 import viewmodel.DetailsViewModel
 
@@ -31,11 +33,6 @@ const val DETAILS_RESPONSE_SUCCESS_EXTRA = "RESPONSE SUCCESS"
 const val DETAILS_TEMP_EXTRA = "TEMPERATURE"
 const val DETAILS_FEELS_LIKE_EXTRA = "FEELS LIKE"
 const val DETAILS_CONDITION_EXTRA = "CONDITION"
-private const val TEMP_INVALID = -100
-private const val FEELS_LIKE_INVALID = -100
-private const val PROCESS_ERROR = "Обработка ошибки"
-private const val MAIN_LINK = "https://api.weather.yandex.ru/v2/informers?"
-private const val REQUEST_API_KEY = "X-Yandex-API-Key"
 
 
 class DetailsFragment : Fragment() {
@@ -117,7 +114,6 @@ class DetailsFragment : Fragment() {
         }
     }
 
-
     private fun saveCity(
         city: City,
         weather: Weather
@@ -145,6 +141,29 @@ class DetailsFragment : Fragment() {
             val fragment = DetailsFragment()
             fragment.arguments = bundle
             return fragment
+        }
+    }
+
+
+    private val adapter = MainFragmentAdapter(object : MainFragment.OnItemViewClickListener {
+        override fun onItemViewClick(weather: Weather) {
+            openDetailsFragment(weather)
+        }
+    })
+
+    private fun openDetailsFragment(
+        weather: Weather
+    ) {
+        activity?.supportFragmentManager?.apply {
+            beginTransaction()
+                .add(
+                    R.id.container,
+                    DetailsFragment.newInstance(Bundle().apply {
+                        putParcelable(DetailsFragment.BUNDLE_EXTRA, weather)
+                    })
+                )
+                .addToBackStack("")
+                .commitAllowingStateLoss()
         }
     }
 }
